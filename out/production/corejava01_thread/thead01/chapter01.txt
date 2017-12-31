@@ -1,0 +1,13 @@
+本章节必备知识点总结：
+
+   主要内容：掌握Thread的创建方式2种方式+花样创建法，
+   及Thread对象的使用方法。
+
+   Create Thread mode 01 :
+   任务类实现Runnable接口，创建任务类对象，作为Thread 类的构造函数的参数。
+
+   Create Thread mode 01 :
+   创建一个类继承Thread类并重写Thread类中的run方法。创建子类的对象，即可成为一个线程宝宝了。
+
+   常识细节：1.main函数是主线程
+
