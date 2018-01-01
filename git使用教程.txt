@@ -19,6 +19,76 @@ centos,redhat 环境：yum install git
 	git config --global user.email xxx
 
 -------------------------如果对Linux不熟悉可阅---------------------------------
+
+vi fileName
+
+随便进行vi编辑
+esc
+shift + ; 进入末行模式
+wq
+
+1.理解相对路径和绝对路径的概念。
+pwd
+cd
+cd .
+cd ..
+cd /
+cd /.......
+mkdir
+mkdir -p
+
+
+ls基础知识 【基础最重要】
+ll 是ls的简写命令
+
+ls -a 显示
+ls -l 显示长列表
+ls -F 区分文件类型  如没有安装彩色仿真的终端比较有用，安装了则可不管。但是我们不能保证你的机器Terminal 一定安装了。
+
+ls -R 递归显示
+ls -h 人性化human
+
+比如：ls -hRl
+
+cd 一个位置
+
+
+之前一直都是用directory来做讲解的。
+创建我们的文件：touch fileName
+
+进阶知识：过滤操作对象
+认识下列通配符 wildcard
+
+*
+ls -l my?you
+ls -l my[an]you
+ls -l my[!a]you
+ls -l my[c-i]you
+
+文本编辑
+
+vi text.txt
+按a,i  进入编辑模式
+写点内容
+esc 进入
+shift+;  底部出现  wq
+cat 查文件内容  ,OK
+
+关于vi命令的在esc后的caret的移动
+←H ↓J ↑K →L
+独门口诀：左H，下J，上K，右L
+
+查看文本
+cat -n    -b   -T
+less 命令[more命令的升级版]
+tail -3 /../../xxx
+head -8 带文件信息的Object
+
+温馨小提示
+tip:
+tab键可以 让系统给你提示哦！
+
+关于File 增删改查 基础操作，因为程序员写的代码都是文本文件。勤加练习！
 	在正式使用Git之前，我们来学习一些Linux的一些常用命令
 
     1. cd 定位到某个目录
@@ -66,7 +136,7 @@ File的增删改查
 
 将需要上传的文件添加到暂存区，（.表示当前所有文件，也可以写入具体文件名称）
 	git add .
-	git add -v . 查看add进记忆的内容。
+	git add -v .   把本次新加的资源 进行冗长的信息显示。
 	git add -h 查看系统帮助
 	git add --help 查看本地文档html帮助。
 
@@ -79,6 +149,8 @@ File的增删改查
     git diff 官方文档：Show changes between commits, commit and working tree, etc(等等其他)
     如果不知道：输入git diff --help 进行官网查询。
     git diff commitId_1 commitId_2
+    git diff --catch  记忆和当前commit的diff区别
+    git diff HEAD^ [默认当前master所指的branch]
 
 	Ps:git常识：
 	1.git管理的是快照修改而非文件。
