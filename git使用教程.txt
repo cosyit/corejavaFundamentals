@@ -234,4 +234,190 @@ File的增删改查
 
 
 
+----------------------------以下是我小徒徒-曾尚斌git文档，待审---------------------
+git使用备忘
 
+git bash 一个字体缩放： ctrl + 滚轮  或者 ctrl -/+
+说明：（参数） 表示参数
+	（*参数）表示可省略，选填，不填则为当前状态
+	 SHA-1 码(也就是超长的版本id)用 版本号 代替
+
+一、git推送远程仓库步骤（这个是一个常用的基本操作流程，要使用过滤操作，可以使用.gitignore文件）
+
+	1.打开git bash
+	2.输入当前操作者（这个只是给git一个操作者信息，可随意，不需要与github账号同名）
+		git config --global user.name xxx
+	3.输入操作者邮箱（同理，不需要github账号同名，甚至可以不是正确的email地址）
+		git config --global user.email xxx
+	4.cd到需要上传文件的目录，并初始化（这里会生成一个git文件夹，说明这个目录已经可以使用git）
+		git init
+	5.检查git状态（这里做第一次检查，为了查看一下有哪些没被add的文件，文件没被add，就会显示为红色）
+		git init
+	5.将需要上传的文件添加到暂存区，（.表示当前目录，所有文件，也可以写入具体文件名称）
+		git add .
+	6.检查git状态 （第二次检查git状态，文件名为绿色，则表示已添加到暂存区但尚未commit）
+		git status
+	7.将已添加到暂存区的文件commit到本地仓库（双引号内写入这次commit的提示信息，也就是版本说明等内容）
+	  	git commit -am "" (如果已经add到过暂存区，被git追踪了，则可以使用这个组合的命令，add并且commit)
+		git commit -m ""
+	8.将本地仓库的文件，推送到远程仓库
+		8.1 进入自己的github，复制远程仓库的链接
+		8.2 为远程仓库地址起一个别名，方便下次使用，alias就是别名，repository_url就是远程仓库地址
+			git remote add （alias） (repository_url)
+		8.3 将本地仓库的文件推送到远程仓库，可能需要输入github的用户名和密码，输入即可
+			git push -u name master
+	这样，到github上找到自己的仓库，并刷新网页，就可以查看到上传后的文件。
+
+
+二、linux相关常用命令
+	1. cd 定位到某个目录
+	2. cd ~ 定位到home目录
+	3. cd / 定位到根目录
+	4. ls  查看当前文件夹下的目录
+		-a 包括隐藏文件，相当于--all
+		-F 提示文件类型
+		-l 显示文件详细信息
+		过滤： *通配符，？代表一个字符，[]表示或，[!b]除了某个字符之外，写范围也行
+		PS：ll = ls -l
+	5. mkdir  在当前文件夹下生成新的文件夹，只能在当前文件夹下直接创建，不可以级联创建
+	6. mkdir -p 在本来的基础上，允许级联创建
+	7. pwd 查看当前路径
+	8. rmdir 删除当前路径下的某个文件夹
+		rm - r 删除某个文件
+	9. rm -fr 删除某个文件夹，f表示强制删除，r表示允许级联（也就是文件夹内还有文件夹或者文件）
+	10. touch  创建文件（不需要后缀名，linux下不区分具体文件类型）
+	11. vi 创建并编辑一个文件
+		11.1 i或a表示进入输入模式，其中i表示insert，a表示append
+		11.2 esc表示进入命令行模式
+		11.3 shift+： （注意是英文状态下的字符），表示进入末行模式，这个模式下，我们可以输入wq表示写入并退出，也可以输入q，表示退出但不保存
+	12. cat 查看文件内容，直接输出到最后一行
+		12.1 -n 同时输入行号
+		12.2 -b 忽略空行
+		12.3 -T 制表符使用^T代替
+	13. less 查看内容，允许用户自行查看，相对于cat命令，用户有了一定的操作权
+	14. tail 查看尾部，允许添加限定字符 -n 表示查看尾部多少行
+	15. head 查看头部，-n 与tail作用相同
+	16. mv (file_name) (target_path/new_name)  将某个文件移动到目标目录或者改名
+
+	------------------在输入过程中，按table可以提示输入，方向键上可以调出之前的输入过的命令----------------------
+
+三、git相关常用命令
+
+	名词解释：HEAD是指向当前工作路径的指针
+
+----1.操作者信息（不需要与github账号相同，只是告诉git谁在操作）
+
+	git config --global user.name xxx   设置当前git的操作者名称
+	git config --global user.email xxx  设置当前git的操作者email
+
+----2.创建git版本仓库（有一点要记住，只有cd到初始化过的目录下（也就是要有git文件夹），才能使用git命令，我踩过这个坑，惭愧）
+
+ 	git clone （repository_url） 克隆别人的远程仓库到本地，因为是别人已经建好的仓库，无需git init
+	git init （*file_path）      初始化本地git仓库，file-path可以是绝对路径，也可以是相对路径，也可以缺省表示当前路径
+
+----3.git状态查看与修改
+
+	git status                     查看git仓库状态（修改过的文件但没有被add的文件，已add但未commit的文件等等，红色代表没有添加到暂	存区的文件，绿色代表已经添加到暂存区但尚未提交的文件）
+	git diff                       查看变更内容
+	git add （file_name 或 . ）    将指定文件添加到暂存区（stage、index）  .表示当前目录下的所有文件，file_name用于指定具体文件。注意，只有add到过暂存区的文件，才能被git追踪到变化。
+	git commit -m ""               将暂存区中的文件提交到本地版本仓库。 -m表示允许写入版本说明信息，""内写入版本说明信息
+	git commit -am ""              将文件add到暂存区并提交到本地仓库，-a 表示add的意思。但是要注意，这个文件必须以前add到过暂存区，所以该指令对新文件无效。
+	git mv (old_name)  (new_name)  修改文件名
+	git rm (file_name)             删除文件
+	git rm --cached (file_name)    停止追踪文件但是不删除，也就是说将文件从暂存区删除
+	git commit --amend             修改最后一次提交
+
+----4.查看历史提交记录
+
+	通过以下指令，查看我们的提交记录，各种信息有助于我们管理我们的版本库。
+
+	git log                        查看当前版本及此前版本的历史提交记录，与你当前的版本位置有关，只显示当前及以前的版本
+	git log -p （file_name）       查看指定文件的历史提交记录
+	git log --author (user_name)   过滤查看某个人的提交记录
+	git reflog                     查看所有历史提交记录，与当前所在版本位置无关，是所有历史提交的记录，版本穿梭的时候，比较有用
+	git blame （file_name）        以列表方式查看指定文件的提交记录
+
+----5.版本穿梭滚动
+
+	版本间穿梭是很常用的指令，有了这些指令，我们就可以在以往的工作版本节点间游走了，打大boss也不怕了，可以读档了。
+
+	git resert --hard （版本号、HEAD相对值）   版本号是指SHA-1码，可以使用log/reflog获得具体的版本号，可以理解为绝对值；HEAD使用^表示当前的上一个版本，两个^^表示上上一个版本，可以理解为相对值，HEAD甚至可以使用HEAD~n来表示具体的版本，n表示往上第几个。例如，HEAD~365，表示往上第365个。
+	git reset --soft （版本号/相对版本）       commit内容会被指定的版本覆盖，但不覆盖到工作区
+
+----6.分支创建、管理、合并
+
+	我们有一个主分支master，是一个文件的不同提交版本在时间轴上形成的链条，但是，对于某个需要更改的但又不能用于提交的具体的版本，有时候为了不影响大家工作，我们需要自己创建一个额外的分支，这个分支不影响主分支，但是我们依然可以进行文件的版本更新工作。于是有了创建其他分支的需要。
+
+	git branch （*branch_name）          在有branch_name的时候，表示创建这个分支，否则表示查看所有分支
+	git branch -d (branch_name)			 删除一个分支
+	git checkout （branch_name/tag_name）切换一个分支，注意，切换不同的分支，会自动覆盖工作区，有重要更新的时候，要记得commit一下
+	git checkout -b （branch_name）      创建一个分支，并切换到这个分支，-b表示branch
+	git merge (branch_name)	             将某个分支合并到当前分支上，注意一点，尽量不要进行大合并，养成经常合并的习惯，差别过大的合并，可能引起合并冲突等一些问题。
+
+----7.tag 发布版本标签
+
+	对于一些重要的可用的版本，我们需要将它们在茫茫版本中区别出来，以便以后可以快速找到这个版本，并使用这个版本。这个时候，我们可以为它打上tag标签。
+
+	git tag   				             显示所有tag标签
+	git tag (tag_name)  	             为当前最新的提交版本打上tag标签
+	git tag -d (tag_name)	             删除某个tag标签
+	git tag (tagname)  (commitId)        针对某一个commitId打上tag标签
+	git tag -a tagname -m " " commitId   含附注的标签，-a（）用于指定这是一个含附注的标签
+
+----8.远程仓库操作（先注册一个github账号）
+
+	终于可以把本地仓库的文件推送到远程服务器保存了。这样再也不用害怕电脑爆炸导致代码丢失了。
+
+	git remote -v                                 查看远程版本库信息（注意哦，要cd到进行过git init的仓库下使用这个命令，不然什么都没有）
+	git remote show (remote)                      查看指定的远程版本库信息
+	git remote add （alias）（repository_url）    为某个远程仓库创建一个别名alias，这样就不用每次推送都使用冗长的url了
+	git remote rm （alias）                       删除某个远程仓库，rm换成remove也可以
+	git fetch (remote)  (branch_name)             从某个远程仓库中拉取文件
+	git pull  (remote)  (branch_name)             从某个远程仓库中拉取文件并合并
+  	git push  -u (remote)  (branch_name/tag_name) 想某个远程仓库推送文件。其中-u是指定默认的仓库，只需要第一次指定接口，之后的
+  	                                              push如果目标不变，可以直接省略后面的参数。
+  	git push --tags                               推送所有带有tag标签的版本
+
+  	9、帮助信息
+
+  	git log --help  直接跳转到帮助文档，功能强大
+
+
+四、生成本地的git公钥
+	1.git命令行内定位到home目录，并且在git命令行内输入ssh-keygen，会要求输入一个文件名（可以直接enter跳过）
+	2.输入一个通行码（要输入两遍进行确认，不显式显示，建议输入，貌似不输入也行），之后会显示一串东西，可以不管。
+	3.git bash里定位到home目录下的.ssh下，cat命令打开文件名为id_rsa.pub的文件，该文件就是我们需要的公钥。这里只是打开查看一下(*￣︶￣)。
+	4.进入home目录下，找到id_rsa.pub文件，文本方式打开，ctrl + a全选复制备用。
+	5.登陆自己的github账号，如果是新账号，直接进入setting，点击SSH-GPG keys，点击add SSH key，将之前复制的公钥粘贴，title部分可以随意。
+	6.返回git命令行，输入ssh –T git@github.com，如果公钥成功添加，则会出现hollo，XXX（代表你github的账号名）的字样。T表示测试。这样子，你的git公钥就成功添加完毕了。
+
+	不过很奇怪，我的虽然tset的时候提示successfully，但是不能acess。每次push都只能输入github用户名和密码。
+
+五、.gitignore文件的作用
+
+	一个仓库里的文件，并不都是我们希望上传提交的文件，因此，为了将那些我们不需要提交的文件过滤出来，就有了这个.gitignore
+
+	对于这个.gitignore文件，我们有3个需要记住的地方：
+	1.在.gitignore中添加的文件，是会被add忽略的。其他一些细节问题参考.gitignore具体格式；
+	2.如果一个文件已经被add过了，也就是追踪过了，那么即使以后在.gitignore中添加了该文件，也是无效的；因为git已经开始管理这些文件了。过滤规则已经失效了。这个要相当注意，一开始就应该创建一个.gitignore文件。
+	3..gitignore文件本身要放到版本库里，并且可以对.gitignore做版本管理！
+
+	.gitignore的样例：
+
+          #下面是我的gitignore文件的内容
+          #忽略gitignore文件
+          .gitignore
+          #忽略后缀名为.o和.a的文件
+          *.[oa]
+          #显示指定忽略名称为main的文件
+          main
+
+	.gitignore文件的格式规范：
+
+	A：#为注释
+
+	B：可以使用shell所使用的正则表达式来进行模式匹配
+
+	C：匹配模式最后跟"/"说明要忽略的是目录
+
+	D：使用！取反（例如目录中包含  test.a，并且gitignore文件中包含  *.[oa]，如果在文件中加入 ！test.a  表明忽略除test.a文件以外的后缀名为.a或者.o的文件）
