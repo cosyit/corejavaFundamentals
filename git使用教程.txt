@@ -1,0 +1,165 @@
+Git：给特
+是一种版本控制技术。
+CVS -> SVN -> Git
+
+安装：去百度搜 git ,进入官网。下载数据包。
+1.window安装，似乎没有什么特别想交代的重点，一路next.
+按一下窗口键，输入git,
+拿出誓死掌握Git 的 魄力 和 勇气 ,
+选择 git bash 将装逼进行到底！
+主流Linux环境：
+ubuntu,debian 环境：$ sudo  apt-get install git
+centos,redhat 环境：yum install git
+就可以直接安装。
+
+
+一、git使用步骤
+打开git bash
+	git config --global user.name xxx
+	git config --global user.email xxx
+
+-------------------------如果对Linux不熟悉可阅---------------------------------
+	在正式使用Git之前，我们来学习一些Linux的一些常用命令
+
+    1. cd 定位到某个目录
+    2. cd ~ 定位到home目录
+    3. cd / 定位到根目录
+    4. ls  查看当前文件夹下的目录
+    	-a 包括隐藏文件
+    	-F 提示文件类型
+    	-l 显示文件详细信息
+    	过滤： *通配符，？代表一个字符，[]表示或
+    	PS：ll = ls -l
+
+File的增删改查
+    vi
+    vim
+    mkdir  在当前文件夹下生成新的文件夹，只能在当前文件夹下直接创建，不可以级联创建
+    mkdir -p 在本来的基础上，允许级联创建
+    pwd 查看当前路径
+    rmdir 删除当前路径下的某个文件夹
+    rm -fr 删除某个文件夹，f表示强制删除，r表示允许级联（也就是文件夹内还有文件夹或者文件）
+    touch  创建文件（不需要后缀名，linux下不区分具体文件类型）
+         vi 创建并编辑一个文件
+    	 i或a表示进入输入模式，其中i表示insert，a表示append
+    	 esc表示进入命令行模式
+    	 shift+分号 （注意是英文状态下的字符），表示进入末行模式，这个模式下，我们可以输入wq表示写入并退出，也可以输入q，表示退出但不保存
+    12. cat 查看文件内容，直接输出到最后一行
+    	 -n 同时输入行号
+    	 -b 忽略空行
+    	 -T 制表符使用^T代替
+
+    less 查看内容是more的升级版，允许用户自行查看。
+    tail 查看尾部，允许添加限定字符 -n 表示查看尾部多少行
+    head 查看头部，-n 与tail作用相同
+
+    File 重命名和移动通过mv进行的。
+
+-------------------了解这些命令后，即可正式开始了解我们的Git------------------------
+
+    创建目录 mkdir -p /f/temp/git/
+    cd到需要上传文件的目录后，初始化
+	git init
+检查git状态
+    git status
+若文件名为红色，则未追踪，文件名为绿色，则表示已添加到暂存区但尚未commit
+
+将需要上传的文件添加到暂存区，（.表示当前所有文件，也可以写入具体文件名称）
+	git add .
+	git add -v . 查看add进记忆的内容。
+	git add -h 查看系统帮助
+	git add --help 查看本地文档html帮助。
+
+检查git状态
+	git status
+将已添加到暂存区的文件commit到本地仓库，双引号内写入这次commit的message说明信息
+	git commit -m ""
+
+    git log [--pretty=oneline]  显示提交日志  git log --help
+    git diff 官方文档：Show changes between commits, commit and working tree, etc(等等其他)
+    如果不知道：输入git diff --help 进行官网查询。
+    git diff commitId_1 commitId_2
+
+	Ps:git常识：
+	1.git管理的是快照修改而非文件。
+	2.每次修改不add到index/stage区进行记忆就无法加入到commit快照上。
+    3.翻阅相关git工作区，暂存区，图片。理解git工作的时空流程。
+
+
+
+
+
+将本地仓库的文件，推送到远程仓库
+
+    1.注册github 生成ssh key
+    bash输入：ssh-keygen
+    选择一个你要保存key的目录，Enter后直接默认在家目录下 即 [~/.ssh]
+    然后输入2次 passphrase口令
+
+    cd ~/.ssh
+    ls -a
+    复制id_rsa.pub文件的内容到网站的settings->SSH-GPG keys -> add sshkey 复制公钥确定
+    然后测试 ssh -T git@github.com
+
+	2.进入自己的github，复制远程仓库的链接
+	为远程仓库地址起一个别名，方便下次使用，业界常用别名origin，repository_URL就是远程仓库地址
+		git remote add alias别名 repository_URL
+		查看远程别名
+		git remote -v
+		删除别名，2个命令都可以删。
+		git remote remove alias别名
+		git remote rm origin别名
+
+		git push origin branchName  推送某个branch
+		git push origin master 推送当前masterbranch过去
+
+    将本地仓库的文件推送到远程仓库，第一次需要输入github的用户名和密码：
+		git push -u origin master   用了-u参数，以后就git push 就会推送默认的远程上去。
+
+这样，到github上找到自己的仓库，并刷新网页，就可以查看到上传后的文件。
+
+    多个文件中只push指定的文件到远程，
+    方案一：
+    vi wukong 后vi bajie
+    git add -u wukong      -u参数为--update
+    $ git commit -m "只记悟空，忽视八戒"  wukong
+    方案二：
+    用.gitignore文件
+    如果已经add进记忆index中的资源，先删除index暂存区记忆
+    git rm -r --cached
+    git add .
+    git commit -m "update 正确的.gitignore使用方式"
+
+
+
+
+
+    3.版本穿梭：
+    git reset --hard 版本号/相对版本
+      版本号类似于一个指定到点的绝对定位。而HEAD^^^^是以当前为基点的相对位置。
+      假如你每天提交一个commit，那么一年后，你想回到一年前的这个版本
+      你不用书写365个^,你只需这样简单输入这一行命令：
+      git reset --hard HEAD~365
+      你的工作区域就换强制和你一年前提交commit同步内容了。
+      因为HEAD指向了working directory的内容。
+      如果你想回到一年后的版本，git reflog可记录到你每一次commit
+      指定引用的旧值,HEAD@{5}表示一个位置 即 那个位置是HEAD前5步的位置。
+
+      特别注意，如果第一次没有使用--hard，那么相当于设置了一个新的分支。
+
+特别地，以下命令用于创建分支
+名词解释：HEAD指向当前工作路径的指针
+
+    dev branch XXX    创建一个新的分支，并且增加1个dev指针
+	dev branch        不添加具体名称，那么就是查看所有分支，绿色代表当前所在分支 
+	dev branch -d XXX 表示删除某个分支
+    git checkout dev    切换分支
+	git checkout -b dev 创建一个新分支，并将mster分支切换到这个分支（b代表新建分支）
+	特别注意一点，切换到不同的分支，那么工作区的文件也会同时被覆盖，最好在切换分支前，将当前工作区的文件commit一次，以防覆盖重要的未保存的改动。
+	git fetch
+	git pull
+	git merge x 把x分支合并到当前分支上
+
+
+
+

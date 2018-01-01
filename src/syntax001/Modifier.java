@@ -1,4 +1,4 @@
-package syntax01;
+package syntax001;
 
 public class Modifier {
 

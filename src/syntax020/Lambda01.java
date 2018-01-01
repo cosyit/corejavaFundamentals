@@ -1,4 +1,4 @@
-package syntax02;
+package syntax020;
 
 public class Lambda01 {
 

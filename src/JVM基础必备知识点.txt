@@ -1,0 +1,10 @@
+JVM知识点重点 list:
+
+JVM内存模型和结构GC原理
+性能调优调优：Thread Dump，
+分析内存结构 
+class 二进制字节码结构
+class loader 体系  http://blog.csdn.net/radic_feng/article/details/6897898
+class加载过程
+实例创建过程
+方法执行过程

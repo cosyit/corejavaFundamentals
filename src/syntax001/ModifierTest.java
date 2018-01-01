@@ -1,4 +1,4 @@
-package syntax01;
+package syntax001;
 
 public class ModifierTest {
     //public属性测试，略了,如若不懂，请自我解决。
