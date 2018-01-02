@@ -9,6 +9,10 @@ import java.util.Date;
 public class MainTest {
     public static void main(String[] args) {
 
+        //(event) 可省略小括弧，因为方法参数只有一个。
+        ActionListener mylistener=c -> System.out.println("时间"+new Date());
+
+
 /*        new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
